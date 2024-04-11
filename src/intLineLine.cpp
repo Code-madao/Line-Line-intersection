@@ -1,10 +1,11 @@
 #include "intLineLine.h"
 #include <iostream>
 
+//TODO: Tol control
 //MARK: check diff between this and OCC
 
 //return a 0-PI angle
-double lingLineAngle(const glm::dvec3&  a, const glm::dvec3& b)
+double lineLineAngle(const glm::dvec3&  a, const glm::dvec3& b)
 {
     using vec3 = glm::dvec3;
 
@@ -12,7 +13,14 @@ double lingLineAngle(const glm::dvec3&  a, const glm::dvec3& b)
     vec3 y = glm::normalize(b);
     double cos = glm::dot(x, y);
 
-    return acos(cos);
+    if (cos > -0.7 && cos < 0.7)
+        return acos(cos);
+    else 
+    {
+        double sin = glm::length(glm::cross(x, y));
+
+        return cos > 0 ? asin(sin) : PI - asin(sin);
+    }
 }
 
 double pointLineDistance(const glm::dvec3&  a, const GeoLine<>& line)
@@ -54,7 +62,7 @@ void IntLineLine::perform()
     }
 
     //coplanar
-    double angle = lingLineAngle(line1.dir, line2.dir);
+    double angle = lineLineAngle(line1.dir, line2.dir);
     if ( angle < precision || fabs(PI - angle) < precision)
     {
         if (pointLineDistance(line1.getP1(), line2) > precision) // parallel
@@ -67,34 +75,26 @@ void IntLineLine::perform()
             double t21 = line2.getPointPara(line1.getP1());
             double t22 = line2.getPointPara(line1.getP2());
 
-            if ((t21 < line2.t1 && t22 < line2.t1) || (t21 > line2.t2 && t22 > line2.t2))
+            if (t21 > t22)
+                std::swap (t21, t22);
+            
+            double line2t1 = line2.t1;
+            double line2t2 = line2.t2;
+            if (line2t1>line2t2)
+                std::swap(line2t1, line2t2);
+            
+            if ((t21 < line2t1 && t22 < line2t1) || (t21 > line2t2 && t22 > line2t2))
             {
                 //projection is out of range
                 intStatus = LineLineIntRes::NOINT;
                 return;
             }
 
-            intStatus = LineLineIntRes::COLINEAR;
-            commonPart = line1;
+            commonPart = line2;
 
-            if (t21 > t22)
-                std::swap (t21, t22);
+            commonPart.setRange((t21 < line2t1) ? line2t1 : t21, (t22 < line2t2) ? t22 : line2t2);
 
-            if (t21 >= line2.t1)
-            {
-                if (t22 <= line2.t2)
-                {
-                    commonPart.setRange(line1.t1, line1.t2);
-                }
-                else 
-                {
-                    commonPart.setRange(line1.t1, line1.t2 - (t22 - line2.t2));
-                }
-            }
-            else 
-            {
-                commonPart.setRange(line1.t1 + (line2.t1 - t21), line1.t2);
-            }
+            intStatus = (fabs(commonPart.t1 - commonPart.t2) < precision) ? LineLineIntRes::VERTEX : LineLineIntRes::COLINEAR;
 
             return;
         }

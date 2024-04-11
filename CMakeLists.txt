@@ -5,6 +5,7 @@ project(INTLINELINE CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set(CMAKE_VERBOSE_MAKEFILE ON)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # cmake default build type is RelWithDebInfo
 # set(CMAKE_BUILD_TYPE "RelWithDebInfo")
@@ -16,6 +17,7 @@ file(GLOB_RECURSE SRCS "./src/*.c" "./src/*.cpp")
 # file(GLOB_RECURSE SRCS "./src/*.c" "./src/*.cpp" "./include/glm/detail/*.cpp")
 
 add_executable(intLineLine ${SRCS})
+
 
 # add_executable(intEE)
 # target_sources(intEE PRIVATE ${SRCS})

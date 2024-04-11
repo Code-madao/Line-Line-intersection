@@ -28,7 +28,7 @@
 			]
 		},
 		{
-			"label": "cmake build",
+			"label": "cmake cleanRebuild",
 			"type": "shell",
 			"command": "cmake --build .",
 			"args": [],
@@ -38,6 +38,15 @@
 			"dependsOn":[
 				"make-cmake-cache",
 			]
+		},
+		{
+			"label": "cmake build",
+			"type": "shell",
+			"command": "cmake --build .",
+			"args": [],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
 		},
 		// {
 		// 	"label": "Build",

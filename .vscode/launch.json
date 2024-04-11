@@ -36,19 +36,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "MY CMake Debug",
+      "name": "My CMake rebuild debug",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/debug/intLineLine.exe",
+      "program": "${workspaceFolder}/bin/debug/intLineLine.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-    //   "externalConsole": false,  //deprecated
-    
       "console":"integratedTerminal",
-    //   "preLaunchTask": "Build",
       "preLaunchTask": "cmake build",
-    }
+    },
+    {
+      "name": "My CMake debug",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/debug/intLineLine.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console":"integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "",
+        "order": 1,
+      }
+    },
   ]
 }
