@@ -1,0 +1,55 @@
+{
+	"version": "2.0.0",
+	// "options": {
+	// 	"cwd": "${workspaceFolder}/build",
+	// },
+	"tasks": [
+		{
+			"label": "make-build-dir",
+			"type": "shell",
+			"command": "mkdir -p build ; cd build",
+			"args": [
+				// ".."
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+			}
+		},
+		{
+			"label": "make-cmake-cache",
+			"type": "shell",
+			"command": "cmake ..",
+			"args": [],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"dependsOn":[
+				"make-build-dir",
+			]
+		},
+		{
+			"label": "cmake build",
+			"type": "shell",
+			"command": "cmake --build .",
+			"args": [],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"dependsOn":[
+				"make-cmake-cache",
+			]
+		},
+		// {
+		// 	"label": "Build",
+		// 	"dependsOn": [
+		// 		"cmake",
+		// 		"cmake build"  //there's no sequence between tasks
+		// 	],
+		// 	"problemMatcher": [],
+		// 	"group": {
+		// 		"kind": "build",
+		// 		"isDefault": true
+		// 	}
+		// }
+	]
+}
