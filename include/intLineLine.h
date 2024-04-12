@@ -14,7 +14,7 @@ struct GeoLine
 
     Type t1, t2;//begin and end parameter t for line segment
 
-    GeoLine() : loc(glm::vec<3, Type>(0)), dir(glm::vec<3, Type>(0)), t1(Type(0)), t2(Type(0)), tol(Type(0)) {}
+    GeoLine() : loc(glm::vec<3, Type>(0)), dir(glm::vec<3, Type>(0)), t1(Type(0)), t2(Type(0)), tol(Type(1e-6)) {}
 
     // template <typename T>
     // GeoLine(const GeoLine<T> &input) : loc(input.loc), dir(input.dir), t1(input.t1), t2(input.t2), tol(input.tol) {}
@@ -31,7 +31,7 @@ struct GeoLine
     // }
 
     template <typename T>
-    GeoLine(glm::vec<3, T> loc, glm::vec<3, T> dir, Type t1, Type t2, T tol = 0.)
+    GeoLine(glm::vec<3, T> loc, glm::vec<3, T> dir, Type t1, Type t2, T tol = 1e-6)
     {
         this->loc = loc;
         this->dir = glm::normalize(dir);
@@ -71,7 +71,7 @@ struct GeoLine
     {
         printf("loc: %.2lf, %.2lf, %.2lf\n", loc.x, loc.y, loc.z);
         printf("dir: %.2lf, %.2lf, %.2lf\n", dir.x, dir.y, dir.z);
-        printf("t1: %.2lf, t2: %.2lf\n", t1, t2);
+        printf("t1: %.2lf, t2: %.2lf\n\n", t1, t2);
     }
     
     ~GeoLine(){}

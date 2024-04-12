@@ -65,7 +65,8 @@ void IntLineLine::perform()
     double angle = lineLineAngle(line1.dir, line2.dir);
     if ( angle < precision || fabs(PI - angle) < precision)
     {
-        if (pointLineDistance(line1.getP1(), line2) > precision) // parallel
+        // if (pointLineDistance(line1.getP1(), line2) > precision) // parallel
+        if (pointLineDistance(line1.getP1(), line2) > line1.tol + line2.tol) // parallel
         {
             intStatus = LineLineIntRes::NOINT;
             return;
